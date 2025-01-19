@@ -1,0 +1,40 @@
+apiVersion: core.openfeature.dev/v1beta1
+kind: FeatureFlagSource
+metadata:
+  name: feature-flag-source
+spec:
+  sources:
+    - source: shop-feature-flags
+      provider: kubernetes
+---
+apiVersion: core.openfeature.dev/v1beta1
+kind: FeatureFlag
+metadata:
+  name: shop-feature-flags
+  labels:
+    app: feature-flag-demo
+spec:
+  flagSpec:
+    flags:
+      # Whether to show featured store items on the storefront.
+      feature-items-section:
+        state: ENABLED
+        variants:
+          on: true
+          off: false
+        defaultVariant: 'off'
+
+      #Whether to enable free shipping
+      free-shipping:
+        state: ENABLED
+        variants:
+          on: true
+          off: false
+        defaultVariant: 'off'
+        targeting:
+          if:
+            - in:
+                - var: lang
+                - de
+            - "on"
+            - "off"

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://flagd.dev/schema/v0/flags.json",
+  "flags": {
+    "feature-items-section": {
+      "state": "ENABLED",
+      "description": "Whether to show featured store items on the storefront.",
+      "variants": {
+        "on": true,
+        "off": false
+      },
+      "defaultVariant": "off"
+    },
+    "free-shipping": {
+      "state": "ENABLED",
+      "description": "Whether to enable free shipping",
+      "variants": {
+        "on": true,
+        "off": false
+      },
+      "defaultVariant": "off",
+      "targeting": {
+        "if": [
+          {
+            "in": [
+              {
+                "var": "lang"
+              },
+              [
+                "de"
+              ]
+            ]
+          },
+          "on",
+          "off"
+        ]
+      }
+    }
+  }
+}

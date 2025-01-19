@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="utf-8"/>
+    <title>Feature Flag Shop</title>
+    <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script>
+      function setLanguage(lang) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.location.href = url.toString();
+      }
+    </script>
+</head>
+<body>
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-center align-items-center mb-3">
+        <div class="flex-grow-1">
+            <h1 class="text-center fw-bold display-4 mb-0">Feature Flag Shop</h1>
+            <p class="text-center text-muted fs-5">For all your feature flagging needs!</p>
+        </div>
+        <div class="btn-group ms-auto align-self-start" role="group" aria-label="Language toggle">
+            <button type="button" class="btn btn-sm {lang.equals("en") ? 'btn-primary' : 'btn-outline-secondary'}" onclick="setLanguage('en')">EN</button>
+            <button type="button" class="btn btn-sm {lang.equals("de") ? 'btn-primary' : 'btn-outline-secondary'}" onclick="setLanguage('de')">DE</button>
+        </div>
+    </div>
+
+    <!-- Free Shipping Banner -->
+    {#if freeShipping}
+    <div class="alert alert-success text-center mb-4" role="alert">
+        <b>Enjoy free shipping on all orders over $50! 🚚</b>
+    </div>
+    {/if}
+
+    <!-- Featured Items -->
+    {#if featuredItemsSection}
+        <div class="bg-light p-4 my-5 rounded shadow-sm" style="background: #eef2f7;">
+            <h2 class="text-center mb-4 display-6">&#10024; Featured Items &#x2728;</h2>
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 g-3 justify-content-center">
+                {#for i in 3}
+                    <div class="col">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="https://placehold.co/200x150" class="card-img-top"
+                                 alt="Featured Product {i}">
+                            <div class="card-body text-center">
+                                <h6 class="card-title fw-semibold">Featured Product {i}</h6>
+                                <p class="card-text text-muted small">Short description of
+                                    product {i}</p>
+                                <button class="btn btn-primary btn-sm rounded-pill px-4 py-2">Add to
+                                    Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {/for}
+            </div>
+        </div>
+    {/if}
+
+    <!-- Items -->
+    <div class="row row-cols-lg-5 g-3 justify-content-center">
+        {#for i in 10}
+            <div class="col">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="https://placehold.co/200x150" class="card-img-top" alt="Product {i}">
+                    <div class="card-body text-center">
+                        <h6 class="card-title fw-semibold">Product {i}</h6>
+                        <p class="card-text text-muted small">Short description of product {i}</p>
+                        <button class="btn btn-primary btn-sm rounded-pill px-4 py-2">Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {/for}
+    </div>
+</div>
+
+</body>
+</html>

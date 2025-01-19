@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feature-flag-demo-deployment
+  labels:
+    app: feature-flag-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feature-flag-demo
+  template:
+    metadata:
+      labels:
+        app: feature-flag-demo
+      annotations:
+        # instruct the OpenFeature operator to inject flagd as a sidecar
+        openfeature.dev/enabled: 'true'
+        # define the FeatureFlagSource CRD used as flagd configuration
+        openfeature.dev/featureflagsource: 'feature-flag-source'
+    spec:
+      volumes:
+        - name: feature-flag-demo-tmp
+          emptyDir: { }
+      securityContext:
+        fsGroup: 185
+      containers:
+        - name: feature-flag-demo
+          image: feature-flag-demo:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          securityContext:
+            capabilities:
+              drop: [ "NET_RAW" ]
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 185
+            runAsGroup: 185
+          volumeMounts:
+            # Quarkus needs are writeable working directory
+            - mountPath: /tmp
+              name: feature-flag-demo-tmp
